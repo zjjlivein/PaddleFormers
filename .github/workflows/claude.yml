@@ -16,11 +16,6 @@ on:
 
 jobs:
   claude:
-    if: |
-      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@formers')) ||
-      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@formers')) ||
-      (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@formers')) ||
-      (github.event_name == 'issues' && (contains(github.event.issue.body, '@formers') || contains(github.event.issue.title, '@formers')))
     runs-on: paddle-bot
     permissions:
       contents: read
@@ -33,17 +28,22 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Debug Claude binary
+
+      - name: Check env
         run: |
-          ls -l /home/paddle-1/.baidu-cc/baidu-cc/bin/
-          file /home/paddle-1/.baidu-cc/baidu-cc/bin/claude
-          ldd /home/paddle-1/.baidu-cc/baidu-cc/bin/claude || true
-          /home/paddle-1/.baidu-cc/baidu-cc/bin/claude --version || true
+          echo "HOME=$HOME"
+          echo "TMPDIR=$TMPDIR"
+          echo "XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR"
       - name: Run Claude Code
         id: claude
         uses: anthropics/claude-code-action@v1
         env:
           ANTHROPIC_BASE_URL: ${{ secrets.ANTHROPIC_BASE_URL }}
+          HOME: /home/paddle-1
+          TMPDIR: /tmp
+          TMP: /tmp
+          TEMP: /tmp
+          XDG_RUNTIME_DIR: /tmp
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           
