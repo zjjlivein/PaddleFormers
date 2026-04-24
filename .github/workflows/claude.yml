@@ -9,14 +9,13 @@ on:
     types: [opened, assigned]
   pull_request_review:
     types: [submitted]
+  pull_request:
+    branches:
+      - develop
+      - release/**
 
 jobs:
   claude:
-    if: |
-      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@formers')) ||
-      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@formers')) ||
-      (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@formers')) ||
-      (github.event_name == 'issues' && (contains(github.event.issue.body, '@formers') || contains(github.event.issue.title, '@formers')))
     runs-on: paddle-bot
     permissions:
       contents: read
@@ -47,9 +46,8 @@ jobs:
           XDG_RUNTIME_DIR: /tmp
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-
-          # Use pre-installed Claude CLI on paddle-bot runner
-          path_to_claude_code_executable: /home/paddle-1/.baidu-cc/baidu-cc-linux-amd64-2.1.76.8/bin/claude
+          
+          path_to_claude_code_executable: /home/paddle-1/.baidu-cc/baidu-cc/bin/claude
 
           # This is an optional setting that allows Claude to read CI results on PRs
           additional_permissions: |
@@ -64,4 +62,4 @@ jobs:
           claude_args: '--print'
           trigger_phrase: '@formers'
           bot_name: formers[bot]
-          label_trigger: fomrers
+          label_trigger: formers
