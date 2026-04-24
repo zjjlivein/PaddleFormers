@@ -42,8 +42,6 @@ jobs:
           ANTHROPIC_BASE_URL: ${{ secrets.ANTHROPIC_BASE_URL }}
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-
-          # Use pre-installed Claude CLI on paddle-bot runner
           path_to_claude_code_executable: /home/paddle-1/.baidu-cc/baidu-cc-linux-amd64-2.1.76.8/bin/claude
 
           # This is an optional setting that allows Claude to read CI results on PRs
