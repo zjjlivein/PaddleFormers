@@ -57,7 +57,7 @@ jobs:
           EVENT_NAME: ${{ github.event_name }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
-          COMMENT_ISSUE_NUMBER: ${{ github.event.issue.number }}  # issue_comment 时有效
+          COMMENT_ISSUE_NUMBER: ${{ github.event.issue.number }}
         run: |
           # 读取结果
           if [ ! -f /tmp/bot_result.md ]; then
@@ -69,7 +69,7 @@ jobs:
           
           # 格式化评论
           COMMENT_BODY=$(cat <<EOF
-          ## 🤖 Formers Bot 分析结果
+          ## Formers Bot 分析结果
           
           ${RESULT}
           
